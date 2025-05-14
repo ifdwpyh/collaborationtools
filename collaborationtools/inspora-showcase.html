@@ -95,6 +95,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 400px;
             border-top: 5px solid var(--primary);
+            cursor: pointer;
         }
 
         .feature-card:hover {
@@ -118,11 +119,9 @@
             padding: 20px;
             background: linear-gradient(to right, rgba(0,0,0,0.02), rgba(0,0,0,0));
             border-bottom: 1px solid rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: background 0.2s ease;
         }
 
-        .feature-card .feature-header:hover {
+        .feature-card:hover .feature-header {
             background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.01));
         }
 
@@ -706,8 +705,8 @@
 
         <div class="features">
             <!-- AI 창의성 증진 도구 -->
-            <div class="feature-card">
-                <div class="feature-header" onclick="window.location.href='ai-creativity.html'">
+            <div class="feature-card" onclick="window.location.href='ai-creativity.html'">
+                <div class="feature-header">
                     <h2><i class="material-icons">psychology</i> AI 창의성 증진 도구</h2>
                 </div>
                 <div class="feature-content">
@@ -735,8 +734,8 @@
             </div>
 
             <!-- 익명 브레인스토밍 공간 -->
-            <div class="feature-card">
-                <div class="feature-header" onclick="window.location.href='anonymous-brainstorming.html'">
+            <div class="feature-card" onclick="window.location.href='anonymous-brainstorming.html'">
+                <div class="feature-header">
                     <h2><i class="material-icons">bubble_chart</i> 익명 브레인스토밍 공간</h2>
                 </div>
                 <div class="feature-content">
@@ -858,8 +857,8 @@
             </div>
 
             <!-- 파일 포맷 통합 기능 -->
-            <div class="feature-card">
-                <div class="feature-header" onclick="window.location.href='file-integration.html'">
+            <div class="feature-card" onclick="window.location.href='file-integration.html'">
+                <div class="feature-header">
                     <h2><i class="material-icons">description</i> 파일 포맷 통합 기능</h2>
                 </div>
                 <div class="feature-content">
@@ -929,8 +928,8 @@
             </div>
 
             <!-- 실시간 번역 기능 -->
-            <div class="feature-card">
-                <div class="feature-header" onclick="window.location.href='realtime-translation.html'">
+            <div class="feature-card" onclick="window.location.href='realtime-translation.html'">
+                <div class="feature-header">
                     <h2><i class="material-icons">translate</i> 실시간 번역 기능</h2>
                 </div>
                 <div class="feature-content">
@@ -983,7 +982,10 @@
             const fileTabs = document.querySelectorAll('.file-tab');
             
             fileTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
+                tab.addEventListener('click', function(event) {
+                    // 이벤트 전파 방지 - 상위 요소의 onclick 이벤트가 실행되지 않도록 함
+                    event.stopPropagation();
+                    
                     // 모든 탭에서 active 클래스 제거
                     fileTabs.forEach(t => t.classList.remove('active'));
                     
