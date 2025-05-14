@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspora - AI 창의성 증진 도구</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80E884;
+            --primary-dark: #388E3C;
+            --secondary: #673AB7;
+            --secondary-light: #9575CD;
+            --accent: #FF5722;
+            --text-light: #F5F5F5;
+            --text-dark: #212121;
+            --background: #FAFAFA;
+            --surface: #FFFFFF;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--surface);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin: 0;
+            background: linear-gradient(45deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #444;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .features-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h3 {
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-item {
+            background-color: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            background-color: #e8f5e9;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            color: var(--primary);
+            font-size: 30px;
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .feature-item p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .demo-section {
+            padding: 80px 0;
+            background-color: #f0f6f0;
+        }
+
+        .demo-wrapper {
+            background-color: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-bottom: 1px solid #c8e6c9;
+        }
+
+        .demo-header h4 {
+            color: var(--primary-dark);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .demo-header h4 i {
+            margin-right: 10px;
+        }
+
+        .demo-content {
+            padding: 30px;
+        }
+
+        .meeting-transcript {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .meeting-transcript p {
+            margin-bottom: 10px;
+        }
+
+        .meeting-transcript .speaker {
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .ai-prompt {
+            background-color: var(--secondary-light);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ai-prompt h5 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .ai-prompt h5 i {
+            margin-right: 8px;
+        }
+
+        .ai-prompt p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .ai-questions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ai-question {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .ai-question:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .ai-recycle {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--primary);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .ai-recycle h5 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+            font-size: 16px;
+        }
+
+        .ai-recycle h5 i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .ai-recycle p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .testimonials-section {
+            padding: 80px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+        }
+
+        .testimonial-content {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .testimonial-content::before {
+            content: """;
+            font-size: 60px;
+            color: #e0e0e0;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            z-index: -1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h5 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .secondary-cta {
+            display: inline-block;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .secondary-cta:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo svg {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            fill: white;
+        }
+
+        .footer-logo h2 {
+            font-size: 20px;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .features-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="inspora-showcase.html" class="logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#4CAF50" />
+                                <stop offset="100%" stop-color="#673AB7" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" />
+                        <path d="M30 40 L50 30 L70 40 L70 60 L50 70 L30 60 Z" fill="white" />
+                        <circle cx="50" cy="50" r="10" fill="#4CAF50" />
+                    </svg>
+                    <h1>Inspora</h1>
+                </a>
+                <nav class="nav-links">
+                    <a href="ai-creativity.html">AI 창의성 증진</a>
+                    <a href="anonymous-brainstorming.html">익명 브레인스토밍</a>
+                    <a href="file-integration.html">파일 포맷 통합</a>
+                    <a href="realtime-translation.html">실시간 번역</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>AI 창의성 증진 도구로<br>팀의 혁신 역량을 높이세요</h2>
+            <p>Inspora의 AI 창의성 증진 도구는 회의에서 나온 아이디어를 더 발전시키고,<br>놓친 관점을 발견하여 팀의 창의적 역량을 극대화합니다.</p>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h3>왜 AI 창의성 증진 도구가 필요할까요?</h3>
+                <p>브레인스토밍과 회의가 생산적이지 않다고 느끼신 적 있으신가요?<br>Inspora의 AI 창의성 증진 도구가 도와드립니다.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">psychology</i>
+                    </div>
+                    <h4>새로운 관점 제시</h4>
+                    <p>AI가 실시간으로 회의 내용을 분석하여 팀원들이 생각하지 못한 새로운 관점과 질문을 제공합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">autorenew</i>
+                    </div>
+                    <h4>아이디어 재조합</h4>
+                    <p>회의 중 자연스럽게 사라진 아이디어들을 AI가 기억하고 새로운 맥락에서 재조합하여 혁신적인 아이디어로 발전시킵니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">lightbulb</i>
+                    </div>
+                    <h4>창의성 촉진 질문</h4>
+                    <p>팀의 논의가 정체될 때 AI가 대화 흐름을 분석하여 창의적 사고를 자극하는 질문을 제안합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">summarize</i>
+                    </div>
+                    <h4>실시간 요약</h4>
+                    <p>긴 회의 내용을 실시간으로 요약하여 핵심 아이디어와 결정 사항을 놓치지 않도록 돕습니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">equalizer</i>
+                    </div>
+                    <h4>참여도 균형화</h4>
+                    <p>모든 팀원이 균등하게 의견을 낼 수 있도록 AI가 참여도를 분석하고 발언 기회를 조정합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">device_hub</i>
+                    </div>
+                    <h4>지식 연결</h4>
+                    <p>회사 내부 자료와 외부 정보를 연결하여 토론 중인 주제에 관련된 유용한 정보를 실시간으로 제공합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section">
+        <div class="container">
+            <div class="section-title">
+                <h3>실제 사용 예시</h3>
+                <p>Inspora의 AI 창의성 증진 도구가 어떻게 작동하는지 알아보세요.</p>
+            </div>
+
+            <div class="demo-wrapper">
+                <div class="demo-header">
+                    <h4><i class="material-icons">psychology</i> AI 창의성 증진 도구 데모</h4>
+                </div>
+                <div class="demo-content">
+                    <div class="meeting-transcript">
+                        <p><span class="speaker">윤세영:</span> 신제품 아이디어를 위한 브레인스토밍을 시작해볼까요?</p>
+                        <p><span class="speaker">정세아:</span> 친환경 소재로 제작된 제품이 트렌드인 것 같아요.</p>
+                        <p><span class="speaker">조성현:</span> 사용자 맞춤형 기능도 필요할 것 같습니다.</p>
+                        <p><span class="speaker">박형준:</span> 비용 효율성도 고려해야 할 것 같아요.</p>
+                        <p><span class="speaker">김예곤:</span> 경쟁사 제품과의 차별화 요소가 필요합니다.</p>
+                        <p><span class="speaker">전지훈:</span> 친환경 소재가 비용이 많이 들어서 그 부분이 고민이네요.</p>
+                    </div>
+
+                    <div class="ai-prompt">
+                        <h5><i class="material-icons">lightbulb</i> AI 질문</h5>
+                        <p>현재 논의에서 다음 질문들을 통해 더 창의적인 해결책을 찾을 수 있습니다:</p>
+                        <div class="ai-questions">
+                            <div class="ai-question">친환경 소재가 제품 성능에 영향을 주지 않으려면 어떻게 해야 할까요?</div>
+                            <div class="ai-question">맞춤형과 대량생산을 어떻게 조화시킬 수 있을까요?</div>
+                            <div class="ai-question">비용을 줄이면서 친환경성을 유지할 수 있는 방법은 무엇일까요?</div>
+                            <div class="ai-question">경쟁사와 차별화할 수 있는 혁신 포인트는 무엇일까요?</div>
+                        </div>
+                    </div>
+
+                    <div class="ai-recycle">
+                        <h5><i class="material-icons">autorenew</i> 아이디어 재조합</h5>
+                        <p>앞서 논의된 "맞춤형 옵션"과 "비용 효율성"을 결합하여 <strong>모듈식 디자인</strong> 전략을 고려해보세요.<br>기본 플랫폼은 대량생산하고 사용자가 필요한 기능만 모듈로 추가할 수 있게 하면,<br>사용자는 맞춤형 경험을 얻고 기업은 대량생산의 비용 효율성을 유지할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h3>창의적인 팀 문화를 만들 준비가 되셨나요?</h3>
+            <p>Inspora의 AI 창의성 증진 도구로 팀의 아이디어 발전 과정을 혁신하고 경쟁력을 강화하세요.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="white" />
+                        <path d="M30 40 L50 30 L70 40 L70 60 L50 70 L30 60 Z" fill="#4CAF50" />
+                        <circle cx="50" cy="50" r="10" fill="white" />
+                    </svg>
+                    <h2>Inspora</h2>
+                </div>
+                <p>스타트업을 위한 창의성 증진 협업 플랫폼</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="#">회사 소개</a>
+                    <a href="#">서비스 이용약관</a>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">문의하기</a>
+                </div>
+                <p class="copyright">© 2025 Inspora. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

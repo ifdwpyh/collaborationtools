@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspora - 실시간 번역 기능</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80E884;
+            --primary-dark: #388E3C;
+            --secondary: #673AB7;
+            --secondary-light: #9575CD;
+            --accent: #FF5722;
+            --text-light: #F5F5F5;
+            --text-dark: #212121;
+            --background: #FAFAFA;
+            --surface: #FFFFFF;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            --purple-dark: #5E35B1;
+            --purple-light: #D1C4E9;
+            --purple-medium: #9575CD;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--surface);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin: 0;
+            background: linear-gradient(45deg, var(--primary-dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #E8EAF6, #C5CAE9);
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #311B92;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #444;
+        }
+
+        .features-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h3 {
+            font-size: 32px;
+            color: #311B92;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-item {
+            background-color: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            background-color: var(--purple-light);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            color: var(--purple-dark);
+            font-size: 30px;
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #311B92;
+        }
+
+        .feature-item p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .demo-section {
+            padding: 80px 0;
+            background-color: #F5F5F5;
+        }
+
+        .demo-wrapper {
+            background-color: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            background-color: var(--purple-light);
+            padding: 20px;
+            border-bottom: 1px solid var(--purple-medium);
+        }
+
+        .demo-header h4 {
+            color: #311B92;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .demo-header h4 i {
+            margin-right: 10px;
+        }
+
+        .demo-content {
+            padding: 30px;
+        }
+
+        .chat-container {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .message.incoming {
+            align-self: flex-start;
+        }
+
+        .message.outgoing {
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.incoming .message-bubble {
+            background-color: #e9e9e9;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.outgoing .message-bubble {
+            background-color: #D1C4E9;
+            color: #333;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .message-info .user {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .message-info .language {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+
+        .message-info .language i {
+            font-size: 14px;
+            margin-right: 3px;
+        }
+
+        .message-translation {
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dashed #ccc;
+            font-style: italic;
+            color: #555;
+        }
+
+        .language-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #5E35B1;
+            background-color: var(--purple-light);
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+
+        .language-indicator i {
+            font-size: 14px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: var(--purple-dark);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input button i {
+            margin-right: 5px;
+        }
+
+        .language-switcher {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .language-option img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .language-option select {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+
+        .translation-info {
+            background-color: #E8EAF6;
+            border-left: 4px solid #5E35B1;
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .translation-info h5 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #311B92;
+            font-size: 16px;
+        }
+
+        .translation-info h5 i {
+            margin-right: 8px;
+            color: #5E35B1;
+        }
+
+        .translation-info p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .language-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .language-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .language-badge img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #9575CD, #5E35B1);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo svg {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            fill: white;
+        }
+
+        .footer-logo h2 {
+            font-size: 20px;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .language-switcher {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="inspora-showcase.html" class="logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#4CAF50" />
+                                <stop offset="100%" stop-color="#673AB7" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" />
+                        <path d="M30 40 L50 30 L70 40 L70 60 L50 70 L30 60 Z" fill="white" />
+                        <circle cx="50" cy="50" r="10" fill="#4CAF50" />
+                    </svg>
+                    <h1>Inspora</h1>
+                </a>
+                <nav class="nav-links">
+                    <a href="ai-creativity.html">AI 창의성 증진</a>
+                    <a href="anonymous-brainstorming.html">익명 브레인스토밍</a>
+                    <a href="file-integration.html">파일 포맷 통합</a>
+                    <a href="realtime-translation.html">실시간 번역</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>실시간 번역으로<br>팀의 언어 장벽을 허물어보세요</h2>
+            <p>Inspora의 실시간 번역 기능은 다국어 환경에서의 협업을 원활하게 만들어<br>팀원들이 자신의 모국어로 의사소통할 수 있게 합니다.</p>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h3>왜 실시간 번역 기능이 필요할까요?</h3>
+                <p>글로벌 팀에서의 언어 장벽을 없애고 모든 팀원이 동등하게 참여할 수 있는 환경을 구축하세요.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">chat</i>
+                    </div>
+                    <h4>채팅 실시간 번역</h4>
+                    <p>모든 메시지를 사용자의 선호 언어로 자동 번역하여 즉각적인 의사소통이 가능합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">description</i>
+                    </div>
+                    <h4>문서 내용 번역</h4>
+                    <p>공유 문서의 내용을 실시간으로 번역하여 모든 팀원이 자신의 언어로 내용을 이해할 수 있습니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">mic</i>
+                    </div>
+                    <h4>음성 회의 자막 번역</h4>
+                    <p>화상/음성 회의 중 실시간 자막 생성 및 번역으로 다국어 회의가 자연스럽게 진행됩니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">psychology</i>
+                    </div>
+                    <h4>맥락 이해 번역</h4>
+                    <p>AI가 대화 맥락을 파악하여 단순 직역이 아닌 상황에 맞는 자연스러운 번역을 제공합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">style</i>
+                    </div>
+                    <h4>전문 용어 사전화</h4>
+                    <p>팀별로 자주 사용되는 전문 용어나 약어를 학습하여 정확한 번역을 제공합니다.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="material-icons">settings</i>
+                    </div>
+                    <h4>개인화된 번역 설정</h4>
+                    <p>사용자별 선호 언어, 번역 스타일, 표현 방식 등을 세밀하게 조정할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section">
+        <div class="container">
+            <div class="section-title">
+                <h3>실제 사용 예시</h3>
+                <p>Inspora의 실시간 번역 기능이 어떻게 작동하는지 알아보세요.</p>
+            </div>
+
+            <div class="demo-wrapper">
+                <div class="demo-header">
+                    <h4><i class="material-icons">translate</i> 실시간 번역</h4>
+                </div>
+                <div class="demo-content">
+                    <div class="chat-container">
+                        <div class="chat-messages">
+                            <div class="message incoming">
+                                <div class="message-info">
+                                    <span class="user">김지훈</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> 한국어
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>안녕하세요! 오늘 회의에서 새 협업 기능에 대해 논의하려고 합니다.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="message incoming">
+                                <div class="message-info">
+                                    <span class="user">John Smith</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> English
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>I've prepared some materials on potential new features.</div>
+                                    <div class="message-translation">잠재적인 새 기능에 대한 자료를 준비했습니다.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="message incoming">
+                                <div class="message-info">
+                                    <span class="user">Wang Lei</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> 中文
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>我认为我们应该优先考虑文件共享功能的改进。</div>
+                                    <div class="message-translation">파일 공유 기능의 개선을 우선적으로 고려해야 한다고 생각합니다.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="message outgoing">
+                                <div class="message-info">
+                                    <span class="user">박민지</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> 한국어
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>동의합니다. 파일 공유 기능과 함께 번역 기능도 강화하면 좋을 것 같아요.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="message incoming">
+                                <div class="message-info">
+                                    <span class="user">Tanaka Yuki</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> 日本語
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>翻訳機能の強化は良いアイデアです。特に専門用語の翻訳精度が上がると助かります。</div>
+                                    <div class="message-translation">번역 기능 강화는 좋은 아이디어입니다. 특히 전문 용어의 번역 정확도가 향상되면 도움이 될 것입니다.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="message incoming">
+                                <div class="message-info">
+                                    <span class="user">Maria García</span>
+                                    <span class="language">
+                                        <i class="material-icons">language</i> Español
+                                    </span>
+                                </div>
+                                <div class="message-bubble">
+                                    <div>Estoy de acuerdo. La traducción en tiempo real hace que la comunicación sea mucho más fluida.</div>
+                                    <div class="message-translation">동의합니다. 실시간 번역은 의사소통을 훨씬 더 원활하게 만듭니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="language-badges">
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            한국어
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            English
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            日本語
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            中文
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            Español
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">check_circle</i>
+                            Français
+                        </div>
+                        <div class="language-badge">
+                            <i class="material-icons">more_horiz</i>
+                            외 20개 언어 지원
+                        </div>
+                    </div>
+
+                    <div class="translation-info">
+                        <h5><i class="material-icons">info</i> 실시간 번역 정보</h5>
+                        <p>Inspora의 번역 엔진은 최신 딥러닝 기술을 활용하여 26개 언어를 지원합니다.<br>번역은 사용자별 설정에 따라 자동으로 적용되며, 원본 메시지는 언제든지 확인할 수 있습니다.<br>또한, 대화 맥락과 전문 용어를 학습하여 시간이 지날수록 더 정확한 번역을 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h3>언어 장벽 없는 글로벌 협업을 경험하세요</h3>
+            <p>Inspora의 실시간 번역 기능으로 전 세계 팀원들과 원활한 소통을 시작하세요.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="white" />
+                        <path d="M30 40 L50 30 L70 40 L70 60 L50 70 L30 60 Z" fill="#4CAF50" />
+                        <circle cx="50" cy="50" r="10" fill="white" />
+                    </svg>
+                    <h2>Inspora</h2>
+                </div>
+                <p>스타트업을 위한 창의성 증진 협업 플랫폼</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="#">회사 소개</a>
+                    <a href="#">서비스 이용약관</a>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">문의하기</a>
+                </div>
+                <p class="copyright">© 2025 Inspora. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 간단한 예시 데모를 위한 최소한의 스크립트
+        document.addEventListener('DOMContentLoaded', function() {
+            // 메시지 컨테이너 내부 스크롤 최적화
+            const chatMessages = document.querySelector('.chat-messages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html> 
